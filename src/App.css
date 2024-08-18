@@ -1,30 +1,30 @@
-/* App.css */
-body {
+/* Overall app styling */
+.App {
   font-family: 'Arial', sans-serif;
   text-align: center;
-  padding: 0;
-  margin: 0;
-  background-color: #fff9c4; /* lighter yellow background */
-  min-height: 100vh; /* full viewport height */
-  overflow-x: hidden; /* no horizontal scroll */
-}
-
-.App {
   padding: 20px;
+  background-color: #fff9c4; /* Even lighter yellow background */
+  min-height: 100vh; /* Ensure the background covers the full height of the page */
 }
 
+/* Page title styling */
 h1 {
   color: #333;
 }
 
+/* Container for input field, add button, and dropdown menu */
 .input-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   margin-bottom: 10px;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
+/* Input field styling */
 input {
+  width: 100%; /* Make input field take full width on small screens */
+  max-width: 300px; /* Limit the width on larger screens */
   padding: 10px;
   font-size: 16px;
   border: 2px solid #ddd;
@@ -32,24 +32,77 @@ input {
   margin-right: 10px;
 }
 
-button.add-btn,
+/* Button styling */
+button.add-btn {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+/* Dropdown menu styling */
+select.user-select {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+/* Task list styling */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+/* Center the task box and set width to auto */
+li.task-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px auto; /* Center the task box */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%; /* Allow the box to grow with content */
+  overflow: hidden; /* Prevent text overflow */
+}
+
+/* Ensure task text fits within the container */
+.task-item span {
+  flex-grow: 1;
+  text-align: left;
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflowed text */
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflowed text */
+}
+
+/* Button group styling */
+.button-group {
+  display: flex;
+  gap: 5px; /* Space between buttons */
+}
+
+
+/* Button styling */
 button.complete-btn,
 button.undo-btn,
 button.remove-btn {
   padding: 10px;
   font-size: 16px;
-  border: none;
-  cursor: pointer;
-  margin-left: 5px;
+  border: 2px solid #ddd;
   border-radius: 4px;
+  cursor: pointer;
   position: relative;
 }
 
-button.add-btn {
-  background-color: #4CAF50; /* Green */
-  color: white;
-}
-
+/* Button color coding */
 button.complete-btn {
   background-color: #ffeb3b; /* Yellow */
   color: black;
@@ -65,61 +118,48 @@ button.remove-btn {
   color: white;
 }
 
-button.add-btn:hover {
-  background-color: #45a049;
-}
-
-button.complete-btn:hover {
-  background-color: #fdd835;
-}
-
-button.undo-btn:hover {
-  background-color: #1e88e5;
-}
-
-button.remove-btn:hover {
-  background-color: #e53935;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 20px 0;
-  max-width: 600px; /*width to fit 250 characters */
-  margin-left: auto; /* Center the container */
-  margin-right: auto; /* Center the container */
-}
-
-li.task-item {
-  background-color: #ffffff; /* Light background */
-  border: 1px solid #ddd; 
-  border-radius: 12px; /* Rounded corners */
-  padding: 15px; /* Increased padding*/
-  margin: 15px 0; /* Increased margin*/
+/* Align buttons next to each other with consistent styling */
+.button-group {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* shadow for floating effect */
-  transition: box-shadow 0.3s ease; /*hover effect */
-  word-wrap: break-word; /*
+  gap: 5px; /* Space between buttons */
 }
 
-li.task-item:hover {
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /*floaty effect */
+
+
+/* Adjust button sizes and spacing for mobile screens */
+button {
+  font-size: 14px; /* Slightly smaller buttons on mobile */
+  padding: 8px;
 }
 
-.task-item span {
-  flex-grow: 1;
-  text-align: left;
-}
-
-.warning-text {
-  color: red;
-  margin-top: 10px;
-}
-
-#progress-container {
-  position: relative;
-  height: 30px;
+/* Progress circle container */
+.task-counters {
   margin-top: 20px;
+}
+
+/* Ensure the background covers the full page */
+body {
+  background-color: #fff9c4;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 600px) {
+  .input-container {
+    flex-direction: column; /* Stack elements vertically on small screens */
+    align-items: stretch; /* Ensure full width for all elements */
+  }
+
+  input,
+  select.user-select {
+    width: 100%; /* Full width on mobile */
+    max-width: 100%; /* Remove max-width restriction */
+    margin-right: 0; /* Remove margin for mobile */
+    margin-left: 0; /* Remove margin for mobile */
+  }
+
+  button.add-btn {
+    margin-right: 0; /* Remove margin for mobile */
+  }
 }

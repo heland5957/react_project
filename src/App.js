@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Tasks from './Tasks';
+
+const users = ['John', 'Mary'];
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
+  const [assignedUser, setAssignedUser] = useState(users[0]);
   const [showWarning, setShowWarning] = useState(false);
 
   const addTask = () => {
     if (newTask.trim() !== '') {
-      setTasks([...tasks, { text: newTask, completed: false }]);
+      setTasks([...tasks, { text: newTask, completed: false, user: assignedUser }]);
       setNewTask('');
       setShowWarning(false);
     } else {
@@ -43,8 +47,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Tasker</h1>
-      <p>by Helijao</p>      
+      <h1>Task List</h1>
       <div className="input-container">
         <input
           type="text"
@@ -56,25 +59,21 @@ function App() {
           placeholder="Enter a new task"
         />
         <button onClick={addTask} className="add-btn" title="Add Task">+</button>
+        <select value={assignedUser} onChange={(e) => setAssignedUser(e.target.value)} className="user-select">
+          {users.map(user => (
+            <option key={user} value={user}>{user}</option>
+          ))}
+        </select>
       </div>
+
       {showWarning && <p className="warning-text">Please enter a task</p>}
-      <ul>
-        {tasks.map((task, index) => (
-          <li key={index} className="task-item">
-            <span
-              style={{ textDecoration: task.completed ? 'line-through' : 'none' }}
-            >
-              {task.text}
-            </span>
-            {task.completed ? (
-              <button onClick={() => toggleTaskCompletion(index)} className="undo-btn" title="Undo Complete">↩</button>
-            ) : (
-              <button onClick={() => toggleTaskCompletion(index)} className="complete-btn" title="Complete Task">✔</button>
-            )}
-            <button onClick={() => removeTask(index)} className="remove-btn" title="Remove Task">✖</button>
-          </li>
-        ))}
-      </ul>
+      
+      <Tasks
+        tasks={tasks}
+        toggleTaskCompletion={toggleTaskCompletion}
+        removeTask={removeTask}
+      />
+
       <div className="task-counters">
         <svg className="progress-ring" width="120" height="120">
           <circle
