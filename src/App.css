@@ -1,0 +1,125 @@
+/* App.css */
+body {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  background-color: #fff9c4; /* lighter yellow background */
+  min-height: 100vh; /* full viewport height */
+  overflow-x: hidden; /* no horizontal scroll */
+}
+
+.App {
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+button.add-btn,
+button.complete-btn,
+button.undo-btn,
+button.remove-btn {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  margin-left: 5px;
+  border-radius: 4px;
+  position: relative;
+}
+
+button.add-btn {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+button.complete-btn {
+  background-color: #ffeb3b; /* Yellow */
+  color: black;
+}
+
+button.undo-btn {
+  background-color: #2196F3; /* Blue */
+  color: white;
+}
+
+button.remove-btn {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+button.add-btn:hover {
+  background-color: #45a049;
+}
+
+button.complete-btn:hover {
+  background-color: #fdd835;
+}
+
+button.undo-btn:hover {
+  background-color: #1e88e5;
+}
+
+button.remove-btn:hover {
+  background-color: #e53935;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+  max-width: 600px; /*width to fit 250 characters */
+  margin-left: auto; /* Center the container */
+  margin-right: auto; /* Center the container */
+}
+
+li.task-item {
+  background-color: #ffffff; /* Light background */
+  border: 1px solid #ddd; 
+  border-radius: 12px; /* Rounded corners */
+  padding: 15px; /* Increased padding*/
+  margin: 15px 0; /* Increased margin*/
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* shadow for floating effect */
+  transition: box-shadow 0.3s ease; /*hover effect */
+  word-wrap: break-word; /*
+}
+
+li.task-item:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /*floaty effect */
+}
+
+.task-item span {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.warning-text {
+  color: red;
+  margin-top: 10px;
+}
+
+#progress-container {
+  position: relative;
+  height: 30px;
+  margin-top: 20px;
+}
