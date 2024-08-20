@@ -1,28 +1,45 @@
 import React from 'react';
+import { FaCheck, FaUndo, FaTrash } from 'react-icons/fa'; // Import the icons
 
-function Tasks({ tasks, toggleTaskCompletion, removeTask }) {
+const Tasks = ({ tasks, toggleTaskCompletion, removeTask, currentUser }) => {
   return (
     <ul>
       {tasks.map((task, index) => (
-        <li key={index} className="task-item">
-          <span
-            style={{ textDecoration: task.completed ? 'line-through' : 'none' }}
-          >
-            {task.text} - <strong>{task.user}</strong>
-          </span>
-          <div className="button-group">
+        <li
+          key={index}
+          className={`task-item ${task.completed ? 'completed' : ''}`}
+        >
+          <span>{task.text} - {task.user}</span>
+          <div className="task-buttons">
+            {/* Conditionally render Complete or Undo button */}
             {!task.completed && (
-              <button onClick={() => toggleTaskCompletion(index)} className="complete-btn" title="Complete Task">✔</button>
+              <button
+                onClick={() => toggleTaskCompletion(index)}
+                className="complete-btn"
+              >
+                <FaCheck />
+              </button>
             )}
             {task.completed && (
-              <button onClick={() => toggleTaskCompletion(index)} className="undo-btn" title="Undo Complete">↩</button>
+              <button
+                onClick={() => toggleTaskCompletion(index)}
+                className="undo-btn"
+              >
+                <FaUndo />
+              </button>
             )}
-            <button onClick={() => removeTask(index)} className="remove-btn" title="Remove Task">✖</button>
+            {/* Always show the Remove button */}
+            <button
+              onClick={() => removeTask(index)}
+              className="remove-btn"
+            >
+              <FaTrash />
+            </button>
           </div>
         </li>
       ))}
     </ul>
   );
-}
+};
 
 export default Tasks;

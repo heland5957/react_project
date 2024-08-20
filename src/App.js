@@ -1,111 +1,93 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import { FaUser, FaTasks } from 'react-icons/fa'; // Import the icons
+import ProgressBarComponent from './ProgressBarComponent';
 import Tasks from './Tasks';
-
-const users = ['John', 'Mary'];
+import './App.css';
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
-  const [assignedUser, setAssignedUser] = useState(users[0]);
-  const [showWarning, setShowWarning] = useState(false);
+  const [user, setUser] = useState('');
+  const [progress, setProgress] = useState(0);
+  const [sortByUser, setSortByUser] = useState(false);
 
   const addTask = () => {
-    if (newTask.trim() !== '') {
-      setTasks([...tasks, { text: newTask, completed: false, user: assignedUser }]);
+    if (newTask.trim()) {
+      const updatedTasks = [...tasks, { text: newTask, completed: false, user: user || 'None' }];
+      setTasks(updatedTasks);
       setNewTask('');
-      setShowWarning(false);
-    } else {
-      setShowWarning(true);
+      updateProgress(updatedTasks);
     }
   };
 
-  const removeTask = (index) => {
-    setTasks(tasks.filter((_, i) => i !== index));
-  };
-
   const toggleTaskCompletion = (index) => {
-    const newTasks = tasks.map((task, i) => {
-      if (i === index) {
-        return { ...task, completed: !task.completed };
-      }
-      return task;
-    });
-    setTasks(newTasks);
+    const updatedTasks = tasks.map((task, i) =>
+      i === index ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(updatedTasks);
+    updateProgress(updatedTasks);
   };
 
-  const completedTasks = tasks.filter(task => task.completed).length;
-  const totalTasks = tasks.length;
-  const progress = totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100;
+  const removeTask = (index) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
+    updateProgress(updatedTasks);
+  };
 
-  useEffect(() => {
-    const radius = 52;
-    const circumference = 2 * Math.PI * radius;
-    const offset = circumference - (progress / 100) * circumference;
-    document.querySelector('.progress-ring__circle').style.strokeDashoffset = offset;
-  }, [progress]);
+  const updateProgress = (tasks) => {
+    const completedTasks = tasks.filter((task) => task.completed).length;
+    const newProgress = tasks.length ? (completedTasks / tasks.length) * 100 : 0;
+    setProgress(newProgress);
+  };
+
+  const handleSortToggle = () => {
+    setSortByUser(!sortByUser);
+  };
+
+  const sortedTasks = [...tasks].sort((a, b) => {
+    if (sortByUser) {
+      return a.user.localeCompare(b.user);
+    } else {
+      return a.text.localeCompare(b.text);
+    }
+  });
 
   return (
     <div className="App">
-      <h1>Task List</h1>
+      <img src={require('./logo.png')} alt="Task Tracker Logo" className="logo" />
+
       <div className="input-container">
         <input
           type="text"
           value={newTask}
-          onChange={(e) => {
-            setNewTask(e.target.value);
-            setShowWarning(false);
-          }}
+          onChange={(e) => setNewTask(e.target.value)}
           placeholder="Enter a new task"
         />
-        <button onClick={addTask} className="add-btn" title="Add Task">+</button>
-        <select value={assignedUser} onChange={(e) => setAssignedUser(e.target.value)} className="user-select">
-          {users.map(user => (
-            <option key={user} value={user}>{user}</option>
-          ))}
-        </select>
+        <button onClick={addTask} className="add-btn"></button>
+        <input
+          type="text"
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+          placeholder="Assign user"
+          className="user-assign-input"
+        />
+        <button onClick={handleSortToggle} className="sort-btn">
+          {sortByUser ? <FaTasks size={24} /> : <FaUser size={24} />}
+        </button>
       </div>
 
-      {showWarning && <p className="warning-text">Please enter a task</p>}
-      
       <Tasks
-        tasks={tasks}
+        tasks={sortedTasks}
         toggleTaskCompletion={toggleTaskCompletion}
         removeTask={removeTask}
+        currentUser={user}
       />
 
-      <div className="task-counters">
-        <svg className="progress-ring" width="120" height="120">
-          <circle
-            className="progress-ring__circle--background"
-            stroke="#ddd"
-            strokeWidth="10"
-            fill="transparent"
-            r="52"
-            cx="60"
-            cy="60"
-          />
-          <circle
-            className="progress-ring__circle"
-            stroke="#4CAF50"
-            strokeWidth="10"
-            fill="transparent"
-            r="52"
-            cx="60"
-            cy="60"
-            style={{ strokeDasharray: '327', strokeDashoffset: '327' }}
-          />
-          <text
-            x="50%"
-            y="50%"
-            textAnchor="middle"
-            dy=".3em"
-            className="progress-text-svg"
-          >
-            {completedTasks} / {totalTasks}
-          </text>
-        </svg>
-      </div>
+      {tasks.length > 0 && ( // Conditionally render the progress bar
+        <div className="task-counters">
+          <ProgressBarComponent progress={progress} totalTasks={tasks.length} />
+        </div>
+      )}
     </div>
   );
 }
